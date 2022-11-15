@@ -1,32 +1,58 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { VscTriangleLeft, VscTriangleRight } from "react-icons/vsc";
 
-const Menu = () => (
-  <Wrapper>
-    <Grid></Grid>
-    <Container>
-      <div className="menu">
-        <div className="puzzle-img">1</div>
-        <div className="puzzle-img">2</div>
-        <div className="puzzle-img">3</div>
-        <div className="puzzle-img">4</div>
-        <div className="puzzle-img">5</div>
-        <div className="puzzle-img">6</div>
-      </div>
-      <div className="arrow">
-        <VscTriangleLeft />
-        <VscTriangleRight />
-      </div>
-    </Container>
-  </Wrapper>
-);
+import Portal from "../components/Portal";
+import Modal from "../components/Modal";
+import Button from "../components/Button";
+
+const Menu = () => {
+  const [isActive, setIsActive] = useState(false);
+  const toggleModal = () => {
+    setIsActive(!isActive);
+  };
+
+  return (
+    <Wrapper>
+      <GridBackground></GridBackground>
+      <Container>
+        <div className="menu">
+          <div className="puzzle-img" onClick={toggleModal}>
+            1
+          </div>
+          <div className="puzzle-img">2</div>
+          <div className="puzzle-img">3</div>
+          <div className="puzzle-img">4</div>
+          <div className="puzzle-img">5</div>
+          <div className="puzzle-img">6</div>
+        </div>
+        <div className="arrow">
+          <VscTriangleLeft />
+          <VscTriangleRight />
+        </div>
+      </Container>
+      {isActive && (
+        <Portal>
+          <Modal
+            className="level-modal"
+            onClose={toggleModal}
+            title="LEVEL MODE"
+            isActive={isActive}>
+            <Button text="EASY" onClick={toggleModal}></Button>
+            <Button text="HARD" onClick={toggleModal}></Button>
+          </Modal>
+        </Portal>
+      )}
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   height: 100vh;
   background: linear-gradient(to top, #010001, #310140);
 `;
 
-const Grid = styled.div`
+const GridBackground = styled.div`
   margin: 0 auto;
   position: fixed;
   bottom: 0;
