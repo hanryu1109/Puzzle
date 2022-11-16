@@ -36,7 +36,7 @@ const Container = styled.div`
   transform: translate(-50%, -50%);
 
   & button {
-    background: yellow;
+    background: #ffff00;
     border: none;
     padding: 0.7rem 2rem;
     border-radius: 20px;
