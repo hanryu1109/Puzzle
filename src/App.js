@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import Answer from "./views/Answer";
+import Compare from "./views/Compare";
 import Game from "./views/Game";
 import NotFound from "./views/NotFound";
 import Main from "./views/Main";
@@ -11,7 +11,7 @@ const App = () => (
     <Route index element={<Main />} />
     <Route path="/menu" element={<Menu />} />
     <Route path="/menu/:menu_id/game" element={<Game />} />
-    <Route path="/menu/:menu_id/answer" element={<Answer />} />
+    <Route path="/menu/:menu_id/compare" element={<Compare />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
