@@ -49,3 +49,17 @@ export function shuffle(tiles) {
     ? shuffledTiles
     : shuffle(shuffledTiles);
 }
+
+export function canSwap(srcIndex, destIndex) {
+  const { row: srcRow, col: srcCol } = getMatrixPosition(srcIndex);
+  const { row: destRow, col: destCol } = getMatrixPosition(destIndex);
+
+  return Math.abs(srcRow - destRow) + Math.abs(srcCol - destCol) === 1;
+}
+
+export function swap(tiles, src, dest) {
+  const tilesResult = [...tiles];
+  [tilesResult[src], tilesResult[dest]] = [tilesResult[dest], tilesResult[src]];
+
+  return tilesResult;
+}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Tile from "../Tile/Tile";
-import { shuffle } from "../../utils/helpers";
+import { canSwap, shuffle, swap, isSolved } from "../../utils/helpers";
 
 function Board({ imgUrl }) {
   const TILE_COUNT = 9;
@@ -15,6 +15,17 @@ function Board({ imgUrl }) {
     setTiles(shuffledTiles);
   };
 
+  const swapTiles = (tileIndex) => {
+    if (canSwap(tileIndex, tiles.indexOf(tiles.length - 1))) {
+      const swappedTiles = swap(
+        tiles,
+        tileIndex,
+        tiles.indexOf(tiles.length - 1)
+      );
+      setTiles(swappedTiles);
+    }
+  };
+
   const handleShuffleClick = () => {
     shuffleTiles();
   };
@@ -24,15 +35,32 @@ function Board({ imgUrl }) {
     setIsStarted(true);
   };
 
+  const handleTileClick = (index) => {
+    swapTiles(index);
+  };
+
   const pieceWidth = Math.round(BOARD_SIZE / GRID_SIZE);
   const pieceHeight = Math.round(BOARD_SIZE / GRID_SIZE);
   const style = {
     width: BOARD_SIZE,
     height: BOARD_SIZE,
   };
+  const hasWon = isSolved(tiles);
+  const scoreStyle = {
+    textAlign: "center",
+    fontSize: "30px",
+    color: "#ffff00",
+    width: "400px",
+    margin: "0 auto 15px",
+  };
 
   return (
     <>
+      {hasWon && isStarted && (
+        <div className="score" style={scoreStyle}>
+          SCORE: 100!! 🧠 🎉
+        </div>
+      )}
       <ul style={style} className="board">
         {tiles.map((tile, index) => (
           <Tile
@@ -42,6 +70,7 @@ function Board({ imgUrl }) {
             tile={tile}
             width={pieceWidth}
             height={pieceHeight}
+            handleTileClick={handleTileClick}
           />
         ))}
       </ul>

@@ -12,7 +12,6 @@ const Game = () => {
     <Wrapper>
       <GridBackground></GridBackground>
       <Container>
-        <div className="score">SCORE: 100!!</div>
         <Board imgUrl={imgUrl} />
         <Button text="COMPARE SHORTEST PATH" onClick={goComparePage}></Button>
       </Container>
@@ -110,14 +109,6 @@ const Container = styled.div`
     position: absolute;
     display: grid;
     place-items: center;
-  }
-
-  & .score {
-    text-align: center;
-    font-size: 30px;
-    color: #ffff00;
-    width: 400px;
-    margin: 0 auto 15px;
   }
 
   & button {

@@ -6,7 +6,7 @@ function Tile(props) {
   const GRID_SIZE = 3;
   const BOARD_SIZE = 600;
 
-  const { tile, index, width, height, imgUrl } = props;
+  const { tile, index, width, height, handleTileClick, imgUrl } = props;
   const { row, col } = getMatrixPosition(index);
   const visualPos = getVisualPosition(row, col, width, height);
 
@@ -36,7 +36,8 @@ function Tile(props) {
             transform: `translate3d(${translateX}px, ${translateY}px, 0)`,
             opacity: tile === TILE_COUNT - 1 ? 0 : 1,
           }}
-          className="tile">
+          className="tile"
+          onClick={() => handleTileClick(index)}>
           {!imgUrl && `${tile + 1}`}
         </li>
       )}
