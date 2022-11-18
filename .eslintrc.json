@@ -23,7 +23,6 @@
     "no-restricted-syntax": ["off", "ForOfStatement"],
     "prefer-arrow-callback": "error",
     "require-await": "error",
-    "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
     "no-param-reassign": ["error", { "props": false }],
     "no-unused-expressions": [
       "error",
