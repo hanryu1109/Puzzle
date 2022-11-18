@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../components/Button";
-import backgroundImg from "../assets/background.png";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ const Main = () => {
 };
 
 const Wrapper = styled.section`
-  background-image: url(${backgroundImg});
+  background-image: url("../assets/background.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   height: 100vh;
