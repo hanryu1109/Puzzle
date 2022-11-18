@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { VscTriangleLeft, VscTriangleRight } from "react-icons/vsc";
 
 import Portal from "../components/Portal";
@@ -8,29 +9,47 @@ import Button from "../components/Button";
 
 const Menu = () => {
   const [isActive, setIsActive] = useState(false);
-  const toggleModal = () => {
+  const [menuId, setMenuId] = useState();
+
+  const navigate = useNavigate();
+
+  const toggleModal = (selectedId) => {
+    if (selectedId) {
+      setMenuId(selectedId);
+    }
     setIsActive(!isActive);
+  };
+
+  const goGamePage = (mode) => {
+    console.log(mode, menuId);
+    toggleModal();
+    navigate(menuId + "/game");
   };
 
   return (
     <Wrapper>
       <GridBackground></GridBackground>
       <Container>
-        <div className="menu">
-          <div className="puzzle-img" onClick={toggleModal}>
-            1
-          </div>
-          <div className="puzzle-img">2</div>
-          <div className="puzzle-img">3</div>
-          <div className="puzzle-img">4</div>
-          <div className="puzzle-img">5</div>
-          <div className="puzzle-img">6</div>
-        </div>
+        <ul className="menu">
+          <li
+            className="puzzle-img"
+            onClick={() => {
+              toggleModal(1);
+            }}>
+            <img src="../assets/img/image1.jpeg" alt="image" />
+          </li>
+          <li className="puzzle-img">2</li>
+          <li className="puzzle-img">3</li>
+          <li className="puzzle-img">4</li>
+          <li className="puzzle-img">5</li>
+          <li className="puzzle-img">6</li>
+        </ul>
         <div className="arrow">
           <VscTriangleLeft />
           <VscTriangleRight />
         </div>
       </Container>
+
       {isActive && (
         <Portal>
           <Modal
@@ -38,8 +57,19 @@ const Menu = () => {
             onClose={toggleModal}
             title="LEVEL MODE"
             isActive={isActive}>
-            <Button text="EASY" onClick={toggleModal}></Button>
-            <Button text="HARD" onClick={toggleModal}></Button>
+            <Button
+              text="EASY"
+              onClick={() => {
+                console.log(menuId);
+                goGamePage("easy");
+              }}
+            />
+            <Button
+              text="HARD"
+              onClick={() => {
+                goGamePage("hard");
+              }}
+            />
           </Modal>
         </Portal>
       )}
@@ -126,6 +156,12 @@ const Container = styled.div`
     border-radius: 10px;
     margin: auto;
     text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  & .menu .puzzle-img img {
+    width: 100%;
   }
 
   & .arrow {
