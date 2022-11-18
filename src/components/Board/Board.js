@@ -42,8 +42,8 @@ function Board({ imgUrl }) {
   const pieceWidth = Math.round(BOARD_SIZE / GRID_SIZE);
   const pieceHeight = Math.round(BOARD_SIZE / GRID_SIZE);
   const style = {
-    width: BOARD_SIZE,
-    height: BOARD_SIZE,
+    minWidth: BOARD_SIZE,
+    minHeight: BOARD_SIZE,
   };
   const hasWon = isSolved(tiles);
   const scoreStyle = {

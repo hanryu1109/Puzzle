@@ -98,7 +98,6 @@ const Container = styled.div`
     background: #110418;
     border-radius: 20px;
     border: 10px solid #9b21d8;
-    box-sizing: border-box;
     margin-bottom: 20px;
     padding: 0px;
     position: relative;
@@ -109,6 +108,8 @@ const Container = styled.div`
     position: absolute;
     display: grid;
     place-items: center;
+    border: 3px solid #110418;
+    box-sizing: border-box;
   }
 
   & button {
