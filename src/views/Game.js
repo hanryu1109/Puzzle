@@ -2,25 +2,18 @@ import styled from "styled-components";
 import { MdDashboardCustomize } from "react-icons/md";
 
 import Button from "../components/Button";
+import Board from "../components/Board/Board";
 
 const Game = () => {
   const goComparePage = () => {};
+  const imgUrl = "https://plays.org/game/slider-puzzle/img/puzzle/image1.jpg";
 
   return (
     <Wrapper>
       <GridBackground></GridBackground>
       <Container>
-        <div className="board">
-          <div className="puzzle-img">1</div>
-          <div className="puzzle-img">2</div>
-          <div className="puzzle-img">3</div>
-          <div className="puzzle-img">4</div>
-          <div className="puzzle-img">5</div>
-          <div className="puzzle-img">6</div>
-          <div className="puzzle-img">7</div>
-          <div className="puzzle-img">8</div>
-        </div>
         <div className="score">SCORE: 100!!</div>
+        <Board imgUrl={imgUrl} />
         <Button text="COMPARE SHORTEST PATH" onClick={goComparePage}></Button>
       </Container>
       <MdDashboardCustomize />
@@ -104,24 +97,19 @@ const Container = styled.div`
 
   & .board {
     background: #110418;
-    min-width: 600px;
-    height: 600px;
-    margin-bottom: 20px;
     border-radius: 20px;
     border: 10px solid #9b21d8;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 5px;
     box-sizing: border-box;
+    margin-bottom: 20px;
+    padding: 0px;
+    position: relative;
+    overflow: hidden;
   }
 
-  & .board .puzzle-img {
-    width: 175px;
-    height: 175px;
-    background: #ffffff;
-    border-radius: 10px;
-    margin: auto;
-    text-align: center;
+  & .tile {
+    position: absolute;
+    display: grid;
+    place-items: center;
   }
 
   & .score {
@@ -139,7 +127,7 @@ const Container = styled.div`
     border-radius: 20px;
     font-size: 1rem;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 10px;
     cursor: pointer;
   }
 `;
@@ -154,6 +142,8 @@ const AnswerPicture = styled.div`
   width: 150px;
   height: 150px;
   border-radius: 20px;
+  background-image: url("../../assets/img/image1.jpeg");
+  background-size: cover;
 `;
 
 export default Game;
