@@ -21,7 +21,7 @@ const Main = () => {
 };
 
 const Wrapper = styled.section`
-  background-image: url("../assets/background.png");
+  background-image: url("../../assets/background.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   height: 100vh;
