@@ -13,7 +13,11 @@
     "no-plusplus": "off",
     "no-shadow": "off",
     "vars-on-top": "off",
+    "no-debugger": "off",
+    "no-use-before-define": "off",
+    "no-unused-vars": "off",
     "no-underscore-dangle": "off",
+    "no-else-return": "off",
     "comma-dangle": "off",
     "func-names": "off",
     "prefer-template": "off",
@@ -21,9 +25,9 @@
     "max-classes-per-file": "off",
     "consistent-return": "off",
     "no-restricted-syntax": ["off", "ForOfStatement"],
-    "prefer-arrow-callback": "error",
+    "prefer-arrow-callback": "off",
     "require-await": "error",
-    "no-param-reassign": ["error", { "props": false }],
+    "import/prefer-default-export": "off",
     "no-unused-expressions": [
       "error",
       {
