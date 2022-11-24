@@ -14,8 +14,8 @@ function isSolvable(tiles) {
 }
 
 export function isSolved(tiles) {
-  for (let i = 0, l = tiles.length; i < l; i++) {
-    if (tiles[i] !== i) {
+  for (let i = 0, l = tiles.length - 1; i < l; i++) {
+    if (tiles[i] !== i + 1) {
       return false;
     }
   }
