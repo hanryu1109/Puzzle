@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Motion, spring } from "react-motion";
 import styled from "styled-components";
 
-import Button from "../components/Button/Button";
+import Button from "../components/Button/Button.jsx";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -63,6 +63,17 @@ const Title = styled.h1`
   text-align: center;
   line-height: 1;
   margin-bottom: 2rem;
+  background-image: linear-gradient(-250deg, #ee05ff 0%, #fff800 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textClip 2s linear infinite;
+
+  @keyframes textClip {
+    to {
+      background-position: 200% center;
+    }
+  }
 `;
 
 export default Main;
