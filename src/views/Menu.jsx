@@ -6,6 +6,7 @@ import { VscTriangleLeft, VscTriangleRight } from "react-icons/vsc";
 import Portal from "../components/Portal";
 import Modal from "../components/Modal";
 import Button from "../components/Button/Button.jsx";
+import GridBackground from "../components/GridBackground/GridBackground.jsx";
 
 const Menu = () => {
   const [isActive, setIsActive] = useState(false);
@@ -29,7 +30,7 @@ const Menu = () => {
 
   return (
     <Wrapper>
-      <GridBackground></GridBackground>
+      <GridBackground />
       <Container>
         <ul className="menu">
           {imgIndexList.map((index) => (
@@ -78,56 +79,6 @@ const Menu = () => {
 const Wrapper = styled.div`
   height: 100vh;
   background: linear-gradient(to top, #010001, #310140);
-`;
-
-const GridBackground = styled.div`
-  margin: 0 auto;
-  position: fixed;
-  bottom: 0;
-  left: -50%;
-  background-image: linear-gradient(
-      90deg,
-      transparent 0%,
-      transparent 90%,
-      #ee05ff 100%,
-      transparent 90%
-    ),
-    linear-gradient(
-      0deg,
-      transparent 90%,
-      transparent 90%,
-      #ee05ff 100%,
-      transparent 0%
-    );
-  background-size: 160px 30px;
-  width: 200vw;
-  height: 60vh;
-  transform: translate3D(0, 0, 0) perspective(150px) rotateX(45deg);
-  perspective-origin: top;
-
-  animation-name: movement;
-  animation-duration: 7s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, transparent, #010001);
-  }
-
-  @keyframes movement {
-    0% {
-      background-position: 0% 0%;
-    }
-    100% {
-      background-position: 0% 100%;
-    }
-  }
 `;
 
 const Container = styled.div`
