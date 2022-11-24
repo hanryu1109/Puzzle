@@ -1,31 +1,16 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { VscTriangleLeft, VscTriangleRight } from "react-icons/vsc";
 
-import Portal from "../components/Portal";
-import Modal from "../components/Modal";
-import Button from "../components/Button/Button.jsx";
 import GridBackground from "../components/GridBackground/GridBackground.jsx";
 
 const Menu = () => {
-  const [isActive, setIsActive] = useState(false);
-  const [menuId, setMenuId] = useState();
   const imgIndexList = [...Array(12).keys()].map((key) => key + 1);
 
   const navigate = useNavigate();
 
-  const toggleModal = (selectedId) => {
-    if (selectedId) {
-      setMenuId(selectedId);
-    }
-    setIsActive(!isActive);
-  };
-
-  const goGamePage = (mode) => {
-    console.log(mode, menuId);
-    toggleModal();
-    navigate(menuId + "/game");
+  const goGamePage = (index) => {
+    navigate(index + "/game");
   };
 
   return (
@@ -37,7 +22,7 @@ const Menu = () => {
             <li
               className="puzzle-img"
               onClick={() => {
-                toggleModal(index);
+                goGamePage(index);
               }}>
               <img src={"../assets/img/image" + index + ".jpeg"} alt="image" />
             </li>
@@ -48,30 +33,6 @@ const Menu = () => {
           <VscTriangleRight />
         </div>
       </Container>
-
-      {isActive && (
-        <Portal>
-          <Modal
-            className="level-modal"
-            onClose={toggleModal}
-            title="LEVEL MODE"
-            isActive={isActive}>
-            <Button
-              text="EASY"
-              onClick={() => {
-                console.log(menuId);
-                goGamePage("easy");
-              }}
-            />
-            <Button
-              text="HARD"
-              onClick={() => {
-                goGamePage("hard");
-              }}
-            />
-          </Modal>
-        </Portal>
-      )}
     </Wrapper>
   );
 };
