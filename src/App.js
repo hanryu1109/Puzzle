@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { PathContext } from "./context/PathContext";
 
 import NotFound from "./views/NotFound";
-import Main from "./views/Main";
+import Main from "./views/Main.jsx";
 import Menu from "./views/Menu";
 import Play from "./views/Play";
 import Compare from "./views/Compare";
