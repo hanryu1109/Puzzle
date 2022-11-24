@@ -1,10 +1,76 @@
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { MdDashboardCustomize } from "react-icons/md";
 
+import Tile from "../components/Tile/Tile.jsx";
 import Button from "../components/Button";
 
+import { PathContext } from "../context/PathContext";
+
 const Compare = () => {
-  const comparePaths = () => {};
+  const { path1, path2 } = useContext(PathContext);
+
+  const [shortPath, setShortPath] = useState([]);
+  const [shortTiles, setShortTiles] = useState(path1[0]);
+  const [userPath, setUserPath] = useState(path1);
+  const [userTiles, setUserTiles] = useState(path1[0]);
+
+  const [shortMove, setShortMove] = useState(path2.cost);
+  const [userMove, setUserMove] = useState(path1.length);
+
+  const imgUrl = "https://plays.org/game/slider-puzzle/img/puzzle/image1.jpg";
+
+  const GRID_SIZE = 3;
+  const BOARD_SIZE = 600;
+
+  const pieceWidth = Math.round(BOARD_SIZE / GRID_SIZE);
+  const pieceHeight = Math.round(BOARD_SIZE / GRID_SIZE);
+
+  const style = {
+    minWidth: BOARD_SIZE,
+    minHeight: BOARD_SIZE,
+  };
+
+  const comparePaths = () => {
+    let count = 0;
+    setShortMove(count);
+
+    const timer = setInterval(() => {
+      setShortTiles(shortPath[count].split(""));
+
+      count++;
+      setShortMove(count);
+      if (count === shortPath.length) {
+        clearInterval(timer);
+        count = 0;
+      }
+    }, 1000);
+
+    let userCount = 0;
+    setUserMove(userCount);
+    const userTimer = setInterval(() => {
+      setUserTiles(userPath[userCount]);
+
+      userCount++;
+      setUserMove(userCount);
+      if (userCount === userPath.length) {
+        clearInterval(userTimer);
+        userCount = 0;
+      }
+    }, 1000);
+  };
+
+  useEffect(() => {
+    const result = [];
+    let node = path2;
+
+    while (node.parent !== null) {
+      result.push(node.state);
+      node = node.parent;
+    }
+
+    setShortPath(result.reverse());
+  }, []);
 
   return (
     <Wrapper>
@@ -12,30 +78,34 @@ const Compare = () => {
       <Container>
         <div className="boards-wrap">
           <div className="short-path">
-            <h3>Move: 12</h3>
-            <div className="board">
-              <div className="puzzle-img">1</div>
-              <div className="puzzle-img">2</div>
-              <div className="puzzle-img">3</div>
-              <div className="puzzle-img">4</div>
-              <div className="puzzle-img">5</div>
-              <div className="puzzle-img">6</div>
-              <div className="puzzle-img">7</div>
-              <div className="puzzle-img">8</div>
-            </div>
+            <h3>Move: {shortMove}</h3>
+            <ul style={style} className="board">
+              {shortTiles?.map((tile, index) => (
+                <Tile
+                  key={tile}
+                  index={index}
+                  imgUrl={imgUrl}
+                  tile={tile}
+                  width={pieceWidth}
+                  height={pieceHeight}
+                />
+              ))}
+            </ul>
           </div>
           <div className="user-path">
-            <h3>Move: 24</h3>
-            <div className="board">
-              <div className="puzzle-img">1</div>
-              <div className="puzzle-img">2</div>
-              <div className="puzzle-img">3</div>
-              <div className="puzzle-img">4</div>
-              <div className="puzzle-img">5</div>
-              <div className="puzzle-img">6</div>
-              <div className="puzzle-img">7</div>
-              <div className="puzzle-img">8</div>
-            </div>
+            <h3>Move: {userMove}</h3>
+            <ul style={style} className="board">
+              {userTiles?.map((tile, index) => (
+                <Tile
+                  key={tile}
+                  index={index}
+                  imgUrl={imgUrl}
+                  tile={tile}
+                  width={pieceWidth}
+                  height={pieceHeight}
+                />
+              ))}
+            </ul>
           </div>
         </div>
         <Button text="PLAY" onClick={comparePaths}></Button>
@@ -87,7 +157,7 @@ const GridBackground = styled.div`
   transform: translate3D(0, 0, 0) perspective(150px) rotateX(45deg);
   perspective-origin: top;
 
-  /* animation-name: movement; */
+  animation-name: movement;
   animation-duration: 7s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
@@ -121,7 +191,7 @@ const Container = styled.div`
   & .boards-wrap {
     display: flex;
     justify-content: space-between;
-    width: 1100px;
+    width: 1300px;
   }
 
   & .boards-wrap h3 {
@@ -131,24 +201,20 @@ const Container = styled.div`
 
   & .board {
     background: #110418;
-    min-width: 500px;
-    height: 500px;
-    margin-bottom: 40px;
     border-radius: 20px;
     border: 10px solid #9b21d8;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 5px;
-    box-sizing: border-box;
+    margin-bottom: 20px;
+    padding: 0px;
+    position: relative;
+    overflow: hidden;
   }
 
-  & .board .puzzle-img {
-    width: 145px;
-    height: 145px;
-    background: #ffffff;
-    border-radius: 10px;
-    margin: auto;
-    text-align: center;
+  & .tile {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    border: 3px solid #110418;
+    box-sizing: border-box;
   }
 
   & button {
@@ -158,7 +224,7 @@ const Container = styled.div`
     border-radius: 20px;
     font-size: 1rem;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 10px;
     cursor: pointer;
   }
 `;
