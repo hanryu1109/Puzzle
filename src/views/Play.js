@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { MdDashboardCustomize } from "react-icons/md";
 
 import Board from "../components/Board/Board.jsx";
-import Button from "../components/Button";
+import Button from "../components/Button/Button.jsx";
 
 const Play = () => {
   const navigate = useNavigate();

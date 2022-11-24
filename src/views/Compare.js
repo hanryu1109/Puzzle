@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { MdDashboardCustomize } from "react-icons/md";
 
 import Tile from "../components/Tile/Tile.jsx";
-import Button from "../components/Button";
+import Button from "../components/Button/Button.jsx";
 
 import { PathContext } from "../context/PathContext";
 
@@ -35,6 +35,21 @@ const Compare = () => {
     let count = 0;
     setShortMove(count);
 
+    let userCount = 0;
+    setUserMove(userCount);
+
+    const userTimer = setInterval(() => {
+      setUserTiles(userPath[userCount + 1]);
+
+      userCount++;
+      setUserMove(userCount);
+      if (userCount === userPath.length) {
+        setUserTiles(userPath[userPath.length - 1]);
+        clearInterval(userTimer);
+        userCount = 0;
+      }
+    }, 1000);
+
     const timer = setInterval(() => {
       setShortTiles(shortPath[count].split(""));
 
@@ -43,19 +58,6 @@ const Compare = () => {
       if (count === shortPath.length) {
         clearInterval(timer);
         count = 0;
-      }
-    }, 1000);
-
-    let userCount = 0;
-    setUserMove(userCount);
-    const userTimer = setInterval(() => {
-      setUserTiles(userPath[userCount]);
-
-      userCount++;
-      setUserMove(userCount);
-      if (userCount === userPath.length) {
-        clearInterval(userTimer);
-        userCount = 0;
       }
     }, 1000);
   };

@@ -5,11 +5,12 @@ import { VscTriangleLeft, VscTriangleRight } from "react-icons/vsc";
 
 import Portal from "../components/Portal";
 import Modal from "../components/Modal";
-import Button from "../components/Button";
+import Button from "../components/Button/Button.jsx";
 
 const Menu = () => {
   const [isActive, setIsActive] = useState(false);
   const [menuId, setMenuId] = useState();
+  const imgIndexList = [...Array(12).keys()].map((key) => key + 1);
 
   const navigate = useNavigate();
 
@@ -31,18 +32,15 @@ const Menu = () => {
       <GridBackground></GridBackground>
       <Container>
         <ul className="menu">
-          <li
-            className="puzzle-img"
-            onClick={() => {
-              toggleModal(1);
-            }}>
-            <img src="../assets/img/image1.jpeg" alt="image" />
-          </li>
-          <li className="puzzle-img">2</li>
-          <li className="puzzle-img">3</li>
-          <li className="puzzle-img">4</li>
-          <li className="puzzle-img">5</li>
-          <li className="puzzle-img">6</li>
+          {imgIndexList.map((index) => (
+            <li
+              className="puzzle-img"
+              onClick={() => {
+                toggleModal(index);
+              }}>
+              <img src={"../assets/img/image" + index + ".jpeg"} alt="image" />
+            </li>
+          ))}
         </ul>
         <div className="arrow">
           <VscTriangleLeft />
