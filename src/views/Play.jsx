@@ -75,14 +75,8 @@ const Container = styled.div`
   }
 
   & button {
-    background: #ffff00;
-    border: none;
-    padding: 0.7rem 2rem;
-    border-radius: 20px;
     font-size: 1rem;
-    display: block;
-    margin: 0 auto 10px;
-    cursor: pointer;
+    margin-bottom: 20px;
   }
 `;
 
