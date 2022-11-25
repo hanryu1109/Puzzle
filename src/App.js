@@ -10,11 +10,12 @@ import Play from "./views/Play.jsx";
 import Compare from "./views/Compare.jsx";
 
 const App = () => {
-  const [path1, setPath1] = useState([]);
-  const [path2, setPath2] = useState([]);
+  const [shortestPath, setShortestPath] = useState([]);
+  const [userPath, setUserPath] = useState([]);
 
   return (
-    <PathContext.Provider value={{ path1, path2, setPath1, setPath2 }}>
+    <PathContext.Provider
+      value={{ shortestPath, setShortestPath, userPath, setUserPath }}>
       <Routes>
         <Route index element={<Main />} />
         <Route path="/menu" element={<Menu />} />

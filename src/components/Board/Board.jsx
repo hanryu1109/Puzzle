@@ -1,6 +1,9 @@
 import { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
+import _ from "lodash";
 
 import { PathContext } from "../../context/PathContext";
+
 import Portal from "../Portal";
 import Modal from "../Modal/Modal.jsx";
 import Tile from "../Tile/Tile.jsx";
@@ -12,12 +15,10 @@ import Game from "../../utils/game";
 import Node from "../../utils/node";
 
 function Board({ imgUrl, gridSize, boardSize }) {
-  const { setPath1, setPath2 } = useContext(PathContext);
+  const { shortestPath, setShortestPath, userPath, setUserPath } =
+    useContext(PathContext);
 
   const [tiles, setTiles] = useState([1, 2, 3, 4, 5, 6, 7, 8, 0]);
-  const [shortestPath, setShortestPath] = useState();
-  const [userPath, setUserPath] = useState([]);
-
   const [isStarted, setIsStarted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingModalActive, setIsLoadingModalActive] = useState(false);
@@ -29,8 +30,9 @@ function Board({ imgUrl, gridSize, boardSize }) {
     const newUserPath = [];
     newUserPath.push(shuffledTiles);
     setUserPath(newUserPath);
-    setPath1(newUserPath);
+
     setIsLoading(true);
+    setIsLoadingModalActive(true);
   };
 
   const swapTiles = (tileIndex) => {
@@ -43,7 +45,6 @@ function Board({ imgUrl, gridSize, boardSize }) {
       if (newUserPath[newUserPath.length - 1] !== swappedTiles) {
         newUserPath.push(swappedTiles);
         setUserPath(newUserPath);
-        setPath1(newUserPath);
       }
     }
   };
@@ -60,6 +61,7 @@ function Board({ imgUrl, gridSize, boardSize }) {
   const findPath = () => {
     const game = new Game(tiles.join(""));
     const initialNode = new Node({ state: game.state });
+
     return search({
       node: initialNode,
       iterationLimit: 1000,
@@ -69,53 +71,38 @@ function Board({ imgUrl, gridSize, boardSize }) {
     });
   };
 
-  useEffect(() => {
-    if (isStarted && !shortestPath) {
-      findPath();
-    }
-  }, [tiles]);
-
   const handleTileClick = (index) => {
     swapTiles(index);
   };
 
-  function searchCallback(err, options) {
+  const searchCallback = (err, options) => {
     console.log("end??", options.node);
 
     if (options.node.state !== "123456780") {
       shuffleTiles();
     } else {
-      setIsLoading(false);
       setShortestPath(options.node);
-      setPath2(options.node);
+      setIsLoading(false);
+
       return options.node;
     }
-  }
+  };
+
+  useEffect(() => {
+    if (isStarted && shortestPath.length === 0) {
+      findPath();
+    }
+  }, [tiles]);
 
   const pieceWidth = Math.round(boardSize / gridSize);
   const pieceHeight = Math.round(boardSize / gridSize);
 
-  const style = {
-    minWidth: boardSize,
-    minHeight: boardSize,
-  };
   const hasWon = isSolved(tiles);
-  const scoreStyle = {
-    textAlign: "center",
-    fontSize: "30px",
-    color: "#ffff00",
-    width: "400px",
-    margin: "0 auto 15px",
-  };
 
   return (
-    <>
-      {hasWon && isStarted && (
-        <div className="score" style={scoreStyle}>
-          SCORE: 100!! 🎉
-        </div>
-      )}
-      <ul style={style} className="board">
+    <Wrapper>
+      {hasWon && isStarted && <div className="score">SCORE: 100!! 🎉</div>}
+      <ul className="board" width={boardSize} height={boardSize}>
         {tiles.map((tile, index) => (
           <Tile
             key={tile}
@@ -146,8 +133,23 @@ function Board({ imgUrl, gridSize, boardSize }) {
           </Modal>
         </Portal>
       )}
-    </>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  & .score {
+    text-align: center;
+    font-size: 30px;
+    color: #ffff00;
+    width: 400px;
+    margin: 0 auto 15px;
+  }
+
+  & .board {
+    min-width: 600px;
+    min-height: 600px;
+  }
+`;
 
 export default Board;
