@@ -1,12 +1,15 @@
 import { useState, useEffect, useContext } from "react";
-import _ from "lodash";
 
+import { PathContext } from "../../context/PathContext";
+import Portal from "../Portal";
+import Modal from "../Modal/Modal.jsx";
 import Tile from "../Tile/Tile.jsx";
+import Button from "../Button/Button.jsx";
+
 import { canSwap, shuffle, swap, isSolved } from "../../utils/helpers";
 import search from "../../utils/search";
 import Game from "../../utils/game";
 import Node from "../../utils/node";
-import { PathContext } from "../../context/PathContext";
 
 function Board({ imgUrl, gridSize, boardSize }) {
   const { setPath1, setPath2 } = useContext(PathContext);
@@ -16,6 +19,8 @@ function Board({ imgUrl, gridSize, boardSize }) {
   const [userPath, setUserPath] = useState([]);
 
   const [isStarted, setIsStarted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingModalActive, setIsLoadingModalActive] = useState(false);
 
   const shuffleTiles = () => {
     const shuffledTiles = shuffle(tiles);
@@ -25,6 +30,7 @@ function Board({ imgUrl, gridSize, boardSize }) {
     newUserPath.push(shuffledTiles);
     setUserPath(newUserPath);
     setPath1(newUserPath);
+    setIsLoading(true);
   };
 
   const swapTiles = (tileIndex) => {
@@ -74,13 +80,12 @@ function Board({ imgUrl, gridSize, boardSize }) {
   };
 
   function searchCallback(err, options) {
-    const expandedNodesLength = _.size(options.expandedNodes);
-    window.winnerNode = err ? null : options.node;
     console.log("end??", options.node);
 
     if (options.node.state !== "123456780") {
       shuffleTiles();
     } else {
+      setIsLoading(false);
       setShortestPath(options.node);
       setPath2(options.node);
       return options.node;
@@ -125,9 +130,21 @@ function Board({ imgUrl, gridSize, boardSize }) {
       </ul>
 
       {!isStarted ? (
-        <button onClick={() => handleStartClick()}>START GAME</button>
+        <Button text="START GAME" onClick={() => handleStartClick()} />
       ) : (
-        <button onClick={() => handleShuffleClick()}>RESTART GAME</button>
+        <Button text="RESTART GAME" onClick={() => handleShuffleClick()} />
+      )}
+
+      {isLoading && (
+        <Portal>
+          <Modal
+            className="wait-modal"
+            title="Shuffling..."
+            isActive={isLoadingModalActive}>
+            <p>Wait a minute..</p>
+            <p>It may take up to one minute.</p>
+          </Modal>
+        </Portal>
       )}
     </>
   );
