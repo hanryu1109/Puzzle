@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdDashboardCustomize } from "react-icons/md";
 
@@ -9,15 +9,16 @@ import GridBackground from "../components/GridBackground/GridBackground.jsx";
 const Play = () => {
   const navigate = useNavigate();
 
+  const { menuId } = useParams();
+  const imgUrl = `../../assets/img/image${menuId}.jpeg`;
+
   const goMenuPage = () => {
     navigate("/menu");
   };
 
   const goComparePage = () => {
-    navigate("/menu/1/compare");
+    navigate("/menu/" + menuId + "/compare");
   };
-
-  const imgUrl = "https://plays.org/game/slider-puzzle/img/puzzle/image1.jpg";
 
   return (
     <Wrapper>
@@ -27,7 +28,7 @@ const Play = () => {
         <Button text="COMPARE SHORTEST PATH" onClick={goComparePage}></Button>
       </Container>
       <MdDashboardCustomize onClick={goMenuPage} />
-      <AnswerPicture />
+      <AnswerPicture imgUrl={imgUrl} />
     </Wrapper>
   );
 };
@@ -90,12 +91,11 @@ const AnswerPicture = styled.div`
   right: 50px;
   bottom: 50px;
   font-size: 60px;
-  cursor: pointer;
   background: #ffff00;
   width: 150px;
   height: 150px;
   border-radius: 20px;
-  background-image: url("../../assets/img/image1.jpeg");
+  background-image: url(${(props) => props.imgUrl});
   background-size: cover;
 `;
 
