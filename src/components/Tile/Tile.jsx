@@ -5,7 +5,8 @@ function Tile(props) {
   const GRID_SIZE = 3;
   const BOARD_SIZE = 600;
 
-  const { tile, index, width, height, handleTileClick, imgUrl } = props;
+  const { tile, index, width, height, handleTileClick, imgUrl, isFinished } =
+    props;
   const { row, col } = getMatrixPosition(index);
   const visualPos = getVisualPosition(row, col, width, height);
 
@@ -32,11 +33,14 @@ function Tile(props) {
           style={{
             ...tileStyle,
             transform: `translate3d(${translateX}px, ${translateY}px, 0)`,
-            opacity: tile === 0 || tile === "0" ? 0 : 1,
+            opacity:
+              (tile === 0 && !isFinished) || (tile === "0" && !isFinished)
+                ? 0
+                : 1,
           }}
-          className="tile"
+          className={`tile tile-${tile}`}
           onClick={() => handleTileClick(index)}>
-          {!imgUrl && `${tile + 1}`}
+          {/* {!imgUrl && `${tile + 1}`} */}
         </li>
       )}
     </Motion>

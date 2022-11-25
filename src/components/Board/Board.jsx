@@ -112,6 +112,7 @@ function Board({ imgUrl, gridSize, boardSize }) {
             width={pieceWidth}
             height={pieceHeight}
             handleTileClick={handleTileClick}
+            isFinished={hasWon && isStarted}
           />
         ))}
       </ul>
