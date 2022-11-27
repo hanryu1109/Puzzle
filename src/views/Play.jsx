@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdDashboardCustomize } from "react-icons/md";
+
+import { PathContext } from "../context/PathContext";
 
 import Board from "../components/Board/Board.jsx";
 import Button from "../components/Button/Button.jsx";
@@ -8,6 +11,7 @@ import GridBackground from "../components/GridBackground/GridBackground.jsx";
 
 const Play = () => {
   const navigate = useNavigate();
+  const { userPath } = useContext(PathContext);
 
   const { menuId } = useParams();
   const imgUrl = `../../assets/img/image${menuId}.jpeg`;
@@ -25,7 +29,10 @@ const Play = () => {
       <GridBackground />
       <Container>
         <Board imgUrl={imgUrl} gridSize={3} boardSize={600} />
-        <Button text="COMPARE SHORTEST PATH" onClick={goComparePage}></Button>
+        <Button
+          text="COMPARE SHORTEST PATH"
+          disabled={userPath.length <= 1}
+          onClick={goComparePage}></Button>
       </Container>
       <MdDashboardCustomize onClick={goMenuPage} />
       <AnswerPicture imgUrl={imgUrl} />

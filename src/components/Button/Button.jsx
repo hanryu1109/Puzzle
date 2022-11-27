@@ -27,6 +27,12 @@ const Wrapper = styled.button`
     transform: translate(-50%, 10%);
     box-shadow: 0 2px 0 #d0b134;
   }
+
+  &:disabled {
+    background: #d3d3d3;
+    color: #808080;
+    box-shadow: 0 10px 0 #808080;
+  }
 `;
 
 Button.propTypes = {
