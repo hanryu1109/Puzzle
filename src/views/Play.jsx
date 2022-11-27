@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdDashboardCustomize } from "react-icons/md";
@@ -12,6 +12,7 @@ import GridBackground from "../components/GridBackground/GridBackground.jsx";
 const Play = () => {
   const navigate = useNavigate();
   const { userPath } = useContext(PathContext);
+  const [isStarted, setIsStarted] = useState(false);
 
   const { menuId } = useParams();
   const imgUrl = `../../assets/img/image${menuId}.jpeg`;
@@ -24,6 +25,14 @@ const Play = () => {
     navigate("/menu/" + menuId + "/compare");
   };
 
+  useEffect(() => {
+    if (userPath?.length > 1) {
+      setIsStarted(true);
+    } else {
+      setIsStarted(false);
+    }
+  }, [userPath]);
+
   return (
     <Wrapper>
       <GridBackground />
@@ -31,7 +40,7 @@ const Play = () => {
         <Board imgUrl={imgUrl} gridSize={3} boardSize={600} />
         <Button
           text="COMPARE SHORTEST PATH"
-          disabled={userPath.length <= 1}
+          disabled={!isStarted}
           onClick={goComparePage}></Button>
       </Container>
       <MdDashboardCustomize onClick={goMenuPage} />
