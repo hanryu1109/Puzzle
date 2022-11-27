@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdDashboardCustomize } from "react-icons/md";
 
@@ -9,17 +10,20 @@ import GridBackground from "../components/GridBackground/GridBackground.jsx";
 import { PathContext } from "../context/PathContext";
 
 const Compare = () => {
-  const { path1, path2 } = useContext(PathContext);
+  const navigate = useNavigate();
+  const { shortestPath, userPath } = useContext(PathContext);
 
-  const [shortPath, setShortPath] = useState([]);
-  const [shortTiles, setShortTiles] = useState(path1[0]);
-  const [userPath, setUserPath] = useState(path1);
-  const [userTiles, setUserTiles] = useState(path1[0]);
+  const [shortPath, setShortPath] = useState();
+  const [shortTiles, setShortTiles] = useState(userPath[0]);
+  const [userTiles, setUserTiles] = useState(userPath[0]);
 
-  const [shortMove, setShortMove] = useState(path2.cost);
-  const [userMove, setUserMove] = useState(path1.length);
+  const [shortMove, setShortMove] = useState(userPath.cost);
+  const [userMove, setUserMove] = useState(shortestPath.length);
 
-  const imgUrl = "https://plays.org/game/slider-puzzle/img/puzzle/image1.jpg";
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const { menuId } = useParams();
+  const imgUrl = `../../assets/img/image${menuId}.jpeg`;
 
   const GRID_SIZE = 3;
   const BOARD_SIZE = 600;
@@ -33,6 +37,8 @@ const Compare = () => {
   };
 
   const comparePaths = () => {
+    setIsPlaying(true);
+
     let count = 0;
     setShortMove(count);
 
@@ -44,12 +50,13 @@ const Compare = () => {
 
       userCount++;
       setUserMove(userCount);
-      if (userCount === userPath.length) {
+      if (userCount === userPath.length - 1) {
         setUserTiles(userPath[userPath.length - 1]);
         clearInterval(userTimer);
+        setIsPlaying(false);
         userCount = 0;
       }
-    }, 1000);
+    }, 500);
 
     const timer = setInterval(() => {
       setShortTiles(shortPath[count].split(""));
@@ -60,12 +67,16 @@ const Compare = () => {
         clearInterval(timer);
         count = 0;
       }
-    }, 1000);
+    }, 500);
+  };
+
+  const goMenuPage = () => {
+    navigate("/menu");
   };
 
   useEffect(() => {
     const result = [];
-    let node = path2;
+    let node = shortestPath;
 
     while (node.parent !== null) {
       result.push(node.state);
@@ -81,7 +92,7 @@ const Compare = () => {
       <Container>
         <div className="boards-wrap">
           <div className="short-path">
-            <h3>Move: {shortMove}</h3>
+            <h3>Shortest Path, Move: {shortMove}</h3>
             <ul style={style} className="board">
               {shortTiles?.map((tile, index) => (
                 <Tile
@@ -96,7 +107,7 @@ const Compare = () => {
             </ul>
           </div>
           <div className="user-path">
-            <h3>Move: {userMove}</h3>
+            <h3>Your Path, Move: {userMove}</h3>
             <ul style={style} className="board">
               {userTiles?.map((tile, index) => (
                 <Tile
@@ -111,9 +122,9 @@ const Compare = () => {
             </ul>
           </div>
         </div>
-        <Button text="PLAY" onClick={comparePaths}></Button>
+        <Button text="PLAY" disabled={isPlaying} onClick={comparePaths} />
       </Container>
-      <MdDashboardCustomize />
+      <MdDashboardCustomize onClick={goMenuPage} />
     </Wrapper>
   );
 };
@@ -177,7 +188,6 @@ const Container = styled.div`
     border-radius: 20px;
     font-size: 1rem;
     display: block;
-    margin: 0 auto 10px;
     cursor: pointer;
   }
 `;
