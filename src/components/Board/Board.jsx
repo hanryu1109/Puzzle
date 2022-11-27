@@ -101,7 +101,11 @@ function Board({ imgUrl, gridSize, boardSize }) {
 
   return (
     <Wrapper>
-      {hasWon && isStarted && <div className="score">SCORE: 100!! 🎉</div>}
+      {hasWon && isStarted && (
+        <div className="score">
+          SCORE: {Math.floor((shortestPath.cost / userPath.length) * 100)}
+        </div>
+      )}
       <ul className="board" width={boardSize} height={boardSize}>
         {tiles.map((tile, index) => (
           <Tile
