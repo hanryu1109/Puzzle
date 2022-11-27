@@ -10,7 +10,7 @@ import Play from "./views/Play.jsx";
 import Compare from "./views/Compare.jsx";
 
 const App = () => {
-  const [shortestPath, setShortestPath] = useState([]);
+  const [shortestPath, setShortestPath] = useState();
   const [userPath, setUserPath] = useState([]);
 
   return (

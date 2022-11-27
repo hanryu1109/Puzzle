@@ -50,6 +50,9 @@ function Board({ imgUrl, gridSize, boardSize }) {
   };
 
   const handleShuffleClick = () => {
+    setShortestPath();
+    setUserPath();
+
     shuffleTiles();
   };
 
@@ -89,7 +92,7 @@ function Board({ imgUrl, gridSize, boardSize }) {
   };
 
   useEffect(() => {
-    if (isStarted && shortestPath.length === 0) {
+    if (isStarted && !shortestPath) {
       findPath();
     }
   }, [tiles]);
