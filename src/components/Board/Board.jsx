@@ -103,7 +103,7 @@ function Board({ imgUrl, gridSize, boardSize }) {
     <Wrapper>
       {hasWon && isStarted && (
         <div className="score">
-          SCORE: {Math.floor((shortestPath.cost / userPath.length) * 100)}
+          SCORE: {Math.floor((shortestPath.cost / (userPath.length - 1)) * 100)}
         </div>
       )}
       <ul className="board" width={boardSize} height={boardSize}>
