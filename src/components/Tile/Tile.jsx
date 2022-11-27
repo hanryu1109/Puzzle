@@ -39,9 +39,7 @@ function Tile(props) {
                 : 1,
           }}
           className={`tile tile-${tile}`}
-          onClick={() => handleTileClick(index)}>
-          {/* {!imgUrl && `${tile + 1}`} */}
-        </li>
+          onClick={() => handleTileClick(index)}></li>
       )}
     </Motion>
   );
