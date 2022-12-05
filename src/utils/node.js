@@ -28,7 +28,7 @@ Node.prototype.expand = function () {
 
     result.push(new Node(childData));
   });
-
+  // debugger;
   return result;
 };
 

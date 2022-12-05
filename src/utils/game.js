@@ -59,28 +59,6 @@ Game.prototype.isFinished = function () {
   return this.state === Game.DesiredState;
 };
 
-Game.prototype.randomize = function () {
-  const that = this;
-  const states = {};
-
-  const iteration = 100;
-
-  this.state = Game.DesiredState;
-  states[this.state] = true;
-
-  const randomNextState = function () {
-    const state = _.sample(that.getAvaliableActionsAndStates());
-
-    if (states[state]) return randomNextState();
-
-    return state;
-  };
-
-  _.times(iteration, function () {
-    that.state = randomNextState();
-  });
-};
-
 Game.prototype.getManhattanDistance = function () {
   let distance = 0;
 
