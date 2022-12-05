@@ -11,13 +11,14 @@ import GridBackground from "../components/GridBackground/GridBackground.jsx";
 
 const Play = () => {
   const navigate = useNavigate();
-  const { userPath } = useContext(PathContext);
+  const { userPath, setUserPath } = useContext(PathContext);
   const [isStarted, setIsStarted] = useState(false);
 
   const { menuId } = useParams();
   const imgUrl = `../../assets/img/image${menuId}.jpeg`;
 
   const goMenuPage = () => {
+    setUserPath([]);
     navigate("/menu");
   };
 
