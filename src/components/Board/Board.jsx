@@ -57,6 +57,9 @@ function Board({ imgUrl, gridSize, boardSize }) {
   };
 
   const handleStartClick = () => {
+    setShortestPath();
+    setUserPath();
+
     shuffleTiles();
     setIsStarted(true);
   };
@@ -79,8 +82,6 @@ function Board({ imgUrl, gridSize, boardSize }) {
   };
 
   const searchCallback = (err, options) => {
-    console.log("end??", options.node);
-
     if (options.node.state !== "123456780") {
       shuffleTiles();
     } else {
