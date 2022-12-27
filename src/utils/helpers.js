@@ -2,15 +2,17 @@ const TILE_COUNT = 9;
 const GRID_SIZE = 3;
 
 function isSolvable(tiles) {
-  let product = 1;
+  let inversionCount = 0;
 
-  for (let i = 1, l = TILE_COUNT - 1; i <= l; i++) {
-    for (let j = i + 1, m = l + 1; j <= m; j++) {
-      product *= (tiles[i - 1] - tiles[j - 1]) / (i - j);
+  for (let i = 0; i < tiles.length - 1; i++) {
+    for (let j = i + 1; j < tiles.length; j++) {
+      if (tiles[i] !== 0 && tiles[j] !== 0 && tiles[i] > tiles[j]) {
+        inversionCount += 1;
+      }
     }
   }
 
-  return Math.round(product) === 1;
+  return inversionCount % 2 === 0;
 }
 
 export function isSolved(tiles) {
